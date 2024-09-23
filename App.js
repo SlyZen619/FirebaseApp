@@ -1,20 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AuthProvider } from './AuthContext'; // Đảm bảo rằng AuthContext đã được tạo và dùng đúng cách
+import SignupScreen from './screens/SignupScreen';
+import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#1E90FF', // Màu nền của header
+            },
+            headerTintColor: '#fff', // Màu của tiêu đề và nút back
+            headerTitleStyle: {
+              fontWeight: 'bold', // Tùy chọn kiểu chữ cho tiêu đề
+            },
+            headerBackTitleVisible: false, // Ẩn chữ "Back" trên iOS
+          }}
+        >
+          <Stack.Screen 
+            name="Login" 
+            component={LoginScreen} 
+            options={{ title: 'Đăng nhập' }} // Tiêu đề cho màn hình đăng nhập
+          />
+          <Stack.Screen 
+            name="Signup" 
+            component={SignupScreen} 
+            options={{ title: 'Đăng ký' }} // Tiêu đề cho màn hình đăng ký
+          />
+          <Stack.Screen 
+            name="Home" 
+            component={HomeScreen} 
+            options={{ title: 'Trang chủ' }} // Tiêu đề cho màn hình chính
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
