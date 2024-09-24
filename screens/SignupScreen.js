@@ -18,6 +18,7 @@ const SignupScreen = ({ navigation }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
+      // Lưu thông tin người dùng vào Firestore
       await setDoc(doc(db, "users", userCredential.user.uid), {
         username: username,
         email: userCredential.user.email,
@@ -25,7 +26,9 @@ const SignupScreen = ({ navigation }) => {
       });
 
       Alert.alert('Đăng ký thành công!', `Chào mừng bạn, ${username}`);
-      navigation.navigate('Đăng nhập'); // Điều hướng tới tên tiếng Việt
+      
+      // Điều hướng về màn hình đăng nhập sau khi đăng ký thành công
+      navigation.navigate('Login'); // Điều hướng chính xác đến màn hình đăng nhập (tên màn hình là "Login" thay vì "Đăng nhập")
       
     } catch (error) {
       Alert.alert('Đăng ký thất bại', error.message);
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
-    backgroundColor: '#e4d5f0',
+    backgroundColor: '#e4d5f0', // Màu nền
   },
   input: {
     height: 40,
@@ -89,11 +92,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    backgroundColor: '#3edeae', // Màu nền nút
+    backgroundColor: '#3edeae', // Màu nền của nút
     padding: 10,
-    borderRadius: 5, // Độ bo cong
-    alignItems: 'center', // Căn giữa văn bản trong nút
-
+    borderRadius: 5, // Độ bo cong nút
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff', // Màu chữ trên nút
